@@ -4,34 +4,102 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Bootstrap Sample</title>
+	<title>Color Adjuster</title>
 	<!-- BootstrapのCSS読み込み -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<!-- jQuery読み込み -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- BootstrapのJS読み込み -->
 	<script src="js/bootstrap.min.js"></script>
+	<link href="css/main.css" rel="stylesheet">
+
 </head>
+<script>
+	$(function(){
+		$('input[name=colorcode]').each(function(idx, elm){
+			change_bg($(elm));
+		});
+
+		$('input[name=colorcode]').on('change', function() {
+			change_bg($(this));
+		});
+		$('input[name=radio]').on('change', function() {
+			change_hue();
+		});
+
+		function change_bg(elm) {
+			var color = elm.val();
+			if (color && color.length == 6) {
+				elm.parent().css('background-color','#' + color);
+			} else {
+				elm.parent().css('background-color','#FFF');
+			}
+		}
+
+		function change_hue() {
+			var hue = $('input[name=radio]:checked').val();
+			var hues = hue.split('');
+
+			$('input[name=colorcode]').each(function(idx, elm){
+				var now_color = $(elm).val();
+				if (now_color && now_color.length == 6) {
+					var now_color_arr = [now_color.substr(0, 2), now_color.substr(2, 2), now_color.substr(4, 2)];
+					// カラーコードを降順にする
+					now_color_arr.sort().reverse();
+					var new_color = now_color_arr[hues.indexOf('r')] + now_color_arr[hues.indexOf('g')] + now_color_arr[hues.indexOf('b')];
+					$(elm).val(new_color);
+					change_bg($(elm));
+				}
+			});
+
+		}
+
+	});
+</script>
 <body>
+	<h1>Color Adjuster</h1>
 	<div class="container-fluid">
+		<div class="row">
+			<div class="col-xs-2">
+				<label class="radio-inline"><input type="radio" name="radio" value="rgb"><span class="rgb">　</span>　</label>
+			</div>
+			<div class="col-xs-2">
+				<label class="radio-inline"><input type="radio" name="radio" value="rbg"><span class="rbg">　</span>　</label>
+			</div>
+			<div class="col-xs-2">
+				<label class="radio-inline"><input type="radio" name="radio" value="brg"><span class="brg">　</span>　</label>
+			</div>
+			<div class="col-xs-2">
+				<label class="radio-inline"><input type="radio" name="radio" value="bgr"><span class="bgr">　</span>　</label>
+			</div>
+			<div class="col-xs-2">
+				<label class="radio-inline"><input type="radio" name="radio" value="gbr"><span class="gbr">　</span>　</label>
+			</div>
+			<div class="col-xs-2">
+				<label class="radio-inline"><input type="radio" name="radio" value="grb"><span class="grb">　</span>　</label>
+			</div>
+			<!-- <input type="text" class="form-control" name="diff" value="0"> -->
+		</div>
+	</div>
+	<div class="container-fluid color">
 		<div class="row form-group">
 			<div class="col-sm-2">
-				<input type="text" class="form-control" name="" value="">
+				<input type="text" class="form-control colorcode" name="colorcode" value="008AFF">
 			</div>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" name="" value="">
+				<input type="text" class="form-control colorcode" name="colorcode" value="0085a1">
 			</div>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" name="" value="">
+				<input type="text" class="form-control colorcode" name="colorcode" value="">
 			</div>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" name="" value="">
+				<input type="text" class="form-control colorcode" name="colorcode" value="">
 			</div>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" name="" value="">
+				<input type="text" class="form-control colorcode" name="colorcode" value="">
 			</div>
 			<div class="col-sm-2">
-				<input type="text" class="form-control" name="" value="">
+				<input type="text" class="form-control colorcode" name="colorcode" value="">
 			</div>
 		</div>
 	</div>

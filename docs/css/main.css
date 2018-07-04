@@ -1,0 +1,28 @@
+@media (min-width: 576px) {
+	html, body,.color, .form-group {
+		height: 100%;
+	}
+}
+input.colorcode {
+	color: #fff;
+	background-color: rgba(0,0,0,0.2);
+	max-width: 80px;
+}
+span.rgb {
+	background-color: rgb(255,127,0);
+}
+span.rbg {
+	background-color: rgb(255,0,127);
+}
+span.brg {
+	background-color: rgb(127,0,255);
+}
+span.bgr {
+	background-color: rgb(0,127,255);
+}
+span.gbr {
+	background-color: rgb(0,255,127);
+}
+span.grb {
+	background-color: rgb(127,255,0);
+}
