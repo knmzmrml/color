@@ -16,15 +16,18 @@
 </head>
 <script>
 	$(function(){
-		$('input[name=colorcode]').each(function(idx, elm){
-			change_bg($(elm));
-		});
+		set_random_color();
 
 		$('input[name=colorcode]').on('change', function() {
 			change_bg($(this));
 		});
+
 		$('input[name=radio]').on('change', function() {
 			change_hue();
+		});
+
+		$('input[name=random_btn]').on('click', function() {
+			set_random_color();
 		});
 
 		function change_bg(elm) {
@@ -51,7 +54,17 @@
 					change_bg($(elm));
 				}
 			});
+		}
 
+		function set_random_color() {
+			$('input[name=colorcode]').each(function(idx, elm){
+				var new_color = '';
+				for (var i = 0; i < 3; i++) {
+					new_color = new_color + (Math.floor(Math.random() * 256)).toString(16);
+				}
+				$(elm).val(new_color);
+				change_bg($(elm));
+			});
 		}
 
 	});
@@ -60,34 +73,22 @@
 	<h1>Color Adjuster</h1>
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-xs-2">
-				<label class="radio-inline"><input type="radio" name="radio" value="rgb"><span class="rgb">　</span>　</label>
-			</div>
-			<div class="col-xs-2">
-				<label class="radio-inline"><input type="radio" name="radio" value="rbg"><span class="rbg">　</span>　</label>
-			</div>
-			<div class="col-xs-2">
-				<label class="radio-inline"><input type="radio" name="radio" value="brg"><span class="brg">　</span>　</label>
-			</div>
-			<div class="col-xs-2">
-				<label class="radio-inline"><input type="radio" name="radio" value="bgr"><span class="bgr">　</span>　</label>
-			</div>
-			<div class="col-xs-2">
-				<label class="radio-inline"><input type="radio" name="radio" value="gbr"><span class="gbr">　</span>　</label>
-			</div>
-			<div class="col-xs-2">
-				<label class="radio-inline"><input type="radio" name="radio" value="grb"><span class="grb">　</span>　</label>
-			</div>
-			<!-- <input type="text" class="form-control" name="diff" value="0"> -->
+			<label class="radio-inline pt-2"><input type="radio" name="radio" value="rgb"><span class="rgb">　</span>　</label>
+			<label class="radio-inline pt-2"><input type="radio" name="radio" value="rbg"><span class="rbg">　</span>　</label>
+			<label class="radio-inline pt-2"><input type="radio" name="radio" value="brg"><span class="brg">　</span>　</label>
+			<label class="radio-inline pt-2"><input type="radio" name="radio" value="bgr"><span class="bgr">　</span>　</label>
+			<label class="radio-inline pt-2"><input type="radio" name="radio" value="gbr"><span class="gbr">　</span>　</label>
+			<label class="radio-inline pt-2"><input type="radio" name="radio" value="grb"><span class="grb">　</span>　</label>
+			<input type="button" class="btn btn-info mb-2" name="random_btn" value="Random">
 		</div>
 	</div>
 	<div class="container-fluid color">
 		<div class="row form-group">
 			<div class="col-sm-2">
-				<input type="text" class="form-control colorcode" name="colorcode" value="008AFF">
+				<input type="text" class="form-control colorcode" name="colorcode" value="">
 			</div>
 			<div class="col-sm-2">
-				<input type="text" class="form-control colorcode" name="colorcode" value="0085a1">
+				<input type="text" class="form-control colorcode" name="colorcode" value="">
 			</div>
 			<div class="col-sm-2">
 				<input type="text" class="form-control colorcode" name="colorcode" value="">
