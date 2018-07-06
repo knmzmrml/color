@@ -26,3 +26,12 @@ span.gbr {
 span.grb {
 	background-color: rgb(127,255,0);
 }
+
+select.form-control {
+	float: left;
+	max-width: 60px;
+}
+#color_num {
+	float: right;
+	max-width: 80%;
+}

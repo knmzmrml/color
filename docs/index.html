@@ -16,20 +16,70 @@
 </head>
 <script>
 	$(function(){
+
+		// 保存用変数
+		var saved_colorcode = {
+			cc1: '',
+			cc2: '',
+			cc3: '',
+			cc4: '',
+			cc5: '',
+			cc6: '',
+		}
+
 		set_random_color();
 
+		// カラーコード入力
 		$('input[name=colorcode]').on('change', function() {
 			change_bg($(this));
+			// 変更後のコードを保存
+			save_colorcode($(this));
 		});
 
+		// 色相選択
 		$('input[name=radio]').on('change', function() {
 			change_hue();
 		});
 
+		// Randomボタン押下
 		$('input[name=random_btn]').on('click', function() {
 			set_random_color();
+			// 明度クリア
+			clear_num();
 		});
 
+		$('input[name=reset_btn]').on('click', function() {
+			reset_color();
+			// 明度クリア
+			clear_num();
+		});
+
+		// 明度入力
+		$('select[name=sign], input[name=num]').on('change', function() {
+			change_by_num();
+		});
+
+		// ランダム設定時と直接入力時にカラーコードを保存
+		function save_colorcode(elm) {
+			var id = elm.attr('id');
+			saved_colorcode[id] = elm.val();
+		}
+
+		// 保存済みのカラーコードをフォームに戻す
+		function reset_color() {
+			$.each(saved_colorcode, function(key, value) {
+				$('input#' + key).val(value);
+				change_bg($('input#' + key));
+			});
+		}
+
+		// 明度の符号と数値をリセット
+		function clear_num() {
+			$('select[name=sign]').val('1');
+			$('input[name=num]').val('0');
+		}
+
+		// 引数の要素に入力されている値を背景色に設定
 		function change_bg(elm) {
 			var color = elm.val();
 			if (color && color.length == 6) {
@@ -39,6 +89,7 @@
 			}
 		}
 
+		// 色相選択
 		function change_hue() {
 			var hue = $('input[name=radio]:checked').val();
 			var hues = hue.split('');
@@ -51,19 +102,55 @@
 					now_color_arr.sort().reverse();
 					var new_color = now_color_arr[hues.indexOf('r')] + now_color_arr[hues.indexOf('g')] + now_color_arr[hues.indexOf('b')];
 					$(elm).val(new_color);
+					// 背景色に反映
 					change_bg($(elm));
 				}
 			});
 		}
 
+		// ランダムで背景色を設定
 		function set_random_color() {
 			$('input[name=colorcode]').each(function(idx, elm){
 				var new_color = '';
 				for (var i = 0; i < 3; i++) {
-					new_color = new_color + (Math.floor(Math.random() * 256)).toString(16);
+					// ランダムで0～255の値を生成
+					var cd = Math.floor(Math.random() * 256);
+					// 16進数に変換してから0埋め
+					cd = ('00' + cd.toString(16)).slice(-2);
+					new_color = new_color + cd;
 				}
 				$(elm).val(new_color);
+
+				// 変更後のコードを保存
+				save_colorcode($(elm));
+				// 背景色に反映
 				change_bg($(elm));
+			});
+		}
+
+		// 入力した数値から明度を設定
+		function change_by_num() {
+			var num = parseInt($('select[name=sign]').val()) * parseInt($('input[name=num]').val());
+			$('input[name=colorcode]').each(function(idx, elm){
+				var now_color = $(elm).val();
+				if (now_color && now_color.length == 6) {
+					var now_color_arr = [now_color.substr(0, 2), now_color.substr(2, 2), now_color.substr(4, 2)];
+					var new_color = '';
+					$.each(now_color_arr, function(i, val) {
+						var cd = parseInt(val, 16) + num;
+						if (cd > 255) {
+							cd = 255;
+						} else if (cd < 0) {
+							cd = 0;
+						}
+						// 16進数に変換してから0埋め
+						cd = ('00' + cd.toString(16)).slice(-2);
+						new_color = new_color + cd;
+					});
+					$(elm).val(new_color);
+					// 背景色に反映
+					change_bg($(elm));
+				}
 			});
 		}
 
@@ -80,27 +167,37 @@
 			<label class="radio-inline pt-2"><input type="radio" name="radio" value="gbr"><span class="gbr">　</span>　</label>
 			<label class="radio-inline pt-2"><input type="radio" name="radio" value="grb"><span class="grb">　</span>　</label>
 			<input type="button" class="btn btn-info mb-2" name="random_btn" value="Random">
+			<input type="button" class="btn btn-info mb-2" name="reset_btn" value="変更前に戻す">
+		</div>
+		<div class="row form-group">
+			<div class="col-sm-2 form-inline">
+				<select name="sign" class="form-control">
+					<option value="1">＋</option>
+					<option value="-1">－</option>
+				</select>
+				<input type="number" class="form-control" name="num" id="color_num" value="0" placeholder="">
+			</div>
 		</div>
 	</div>
 	<div class="container-fluid color">
 		<div class="row form-group">
 			<div class="col-sm-2">
-				<input type="text" class="form-control colorcode" name="colorcode" value="">
+				<input type="text" class="form-control colorcode" id="cc1" name="colorcode" value="">
 			</div>
 			<div class="col-sm-2">
-				<input type="text" class="form-control colorcode" name="colorcode" value="">
+				<input type="text" class="form-control colorcode" id="cc2" name="colorcode" value="">
 			</div>
 			<div class="col-sm-2">
-				<input type="text" class="form-control colorcode" name="colorcode" value="">
+				<input type="text" class="form-control colorcode" id="cc3" name="colorcode" value="">
 			</div>
 			<div class="col-sm-2">
-				<input type="text" class="form-control colorcode" name="colorcode" value="">
+				<input type="text" class="form-control colorcode" id="cc4" name="colorcode" value="">
 			</div>
 			<div class="col-sm-2">
-				<input type="text" class="form-control colorcode" name="colorcode" value="">
+				<input type="text" class="form-control colorcode" id="cc5" name="colorcode" value="">
 			</div>
 			<div class="col-sm-2">
-				<input type="text" class="form-control colorcode" name="colorcode" value="">
+				<input type="text" class="form-control colorcode" id="cc6" name="colorcode" value="">
 			</div>
 		</div>
 	</div>
