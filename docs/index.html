@@ -160,17 +160,25 @@
 	<h1>Color Adjuster</h1>
 	<div class="container-fluid">
 		<div class="row">
-			<label class="radio-inline pt-2"><input type="radio" name="radio" value="rgb"><span class="rgb">　</span>　</label>
-			<label class="radio-inline pt-2"><input type="radio" name="radio" value="rbg"><span class="rbg">　</span>　</label>
-			<label class="radio-inline pt-2"><input type="radio" name="radio" value="brg"><span class="brg">　</span>　</label>
-			<label class="radio-inline pt-2"><input type="radio" name="radio" value="bgr"><span class="bgr">　</span>　</label>
-			<label class="radio-inline pt-2"><input type="radio" name="radio" value="gbr"><span class="gbr">　</span>　</label>
-			<label class="radio-inline pt-2"><input type="radio" name="radio" value="grb"><span class="grb">　</span>　</label>
-			<input type="button" class="btn btn-info mb-2" name="random_btn" value="Random">
-			<input type="button" class="btn btn-info mb-2" name="reset_btn" value="変更前に戻す">
+			<div class="col-sm-3">
+				<label class="radio-inline pt-2"><input type="radio" name="radio" value="rgb"><span class="rgb">　</span>　</label>
+				<label class="radio-inline pt-2"><input type="radio" name="radio" value="rbg"><span class="rbg">　</span>　</label>
+				<label class="radio-inline pt-2"><input type="radio" name="radio" value="brg"><span class="brg">　</span>　</label>
+				<label class="radio-inline pt-2"><input type="radio" name="radio" value="bgr"><span class="bgr">　</span>　</label>
+				<label class="radio-inline pt-2"><input type="radio" name="radio" value="gbr"><span class="gbr">　</span>　</label>
+				<label class="radio-inline pt-2"><input type="radio" name="radio" value="grb"><span class="grb">　</span>　</label>
+			</div>
+			<div class="col-sm-9 row">
+				<div class="col-xs-5">
+					<input type="button" class="btn btn-info m-3" name="random_btn" value="Random">
+				</div>
+				<div class="col-xs-5">
+					<input type="button" class="btn btn-info m-3" name="reset_btn" value="変更前に戻す">
+				</div>
+			</div>
 		</div>
 		<div class="row form-group">
-			<div class="col-sm-2 form-inline">
+			<div class="col-sm-12 form-inline">
 				<select name="sign" class="form-control">
 					<option value="1">＋</option>
 					<option value="-1">－</option>
